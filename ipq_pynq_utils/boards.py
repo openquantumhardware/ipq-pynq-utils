@@ -177,23 +177,23 @@ class ZCU208Board:
     The ZCU208 board is equipped with a ZU48DR and a CLK104 board as its clock source.
     To load the PLLs on the CLK104, three SPI devices need to be accessed which are
     made available by the operating system: /dev/spidev1.1 - /dev/spidev1.3. These
-    are not directly connected spi devices, but rather through a multilplexed I2C bus
+    are not directly connected spi devices, but rather through a multiplexed I2C bus
     and an I2C to SPI bridge.
 
     Registers of the SPI device are written by taking the 24-bit value from the register
     file (Which itself consists of a 16-bit address and a 8-bit register value),
-    split them into a list of three bytes and write those consecutively on the spi bus.
-    Ideally the SPI device expects a full 24-bit word to be written, but deals gracefully
-    with that word being split up into three 8-bit words.
+    splitting them into a list of three bytes and writing those consecutively on the spi
+    bus. Ideally the SPI device expects a full 24-bit word to be written, but deals
+    gracefully with that word being split up into three 8-bit words.
 
     The second function of the ZCU208Board class is to provide Multi-Tile synchronization
     of the dataconverter tiles. Note that compatible clocks must have been configured, MTS
     synchronization must have been enabled in the IP configurator and the PL SYSREF line
     must have been connected to the Dataconverter IP for MTS to work.
-    As a short introduction, MTS works by aligning the dataconverters and digitial signal
-    chains to a low-frequency SYSREF signal, which is a periodic signal < 10 MHz signal
+    As a short introduction, MTS works by aligning the dataconverters and digital signal
+    chains to a low-frequency SYSREF signal, which is a periodic < 10 MHz signal
     that's locked to the main PLLs, and should arrive at all relevant converters and
-    chips simultaenously. This way digital delays can be measured and compensated, NCO
+    chips simultaneously. This way digital delays can be measured and compensated, NCO
     phases can be reset and PLLs clock division ambigiuity can be eliminated by resetting
     at a leading edge of the sysref pulses. Because the alignment of the sysref signal
     is integral to this process, it *MUST* be generated with certain restrictions in mind,
